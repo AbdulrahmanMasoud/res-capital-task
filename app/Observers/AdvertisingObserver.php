@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Advertising;
+use Illuminate\Support\Facades\Storage;
 
 class AdvertisingObserver
 {
@@ -36,7 +37,11 @@ class AdvertisingObserver
      */
     public function deleted(Advertising $advertising)
     {
-
+        foreach ($advertising->images as $image) {
+            if (Storage::disk('public')->exists('advertising/'.$image)) {
+                Storage::disk('public')->delete('advertising/'.$image);
+            }
+        }
     }
 
     /**

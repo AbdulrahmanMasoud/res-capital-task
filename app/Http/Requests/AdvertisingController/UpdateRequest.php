@@ -28,6 +28,8 @@ class UpdateRequest extends FormRequest
             'from'  => 'required|date|date_format:Y-m-d',
             'to'    => 'required|date|after:from|date_format:Y-m-d',
             'total' => 'required|numeric|between:0,99999.99',
+            'images'=>'sometimes|array',
+            'images.*' => 'required|image'
         ];
     }
 }

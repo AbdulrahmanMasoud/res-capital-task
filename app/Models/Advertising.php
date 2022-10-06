@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\AdvertisingObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,7 @@ class Advertising extends Model
         'daily_budget',
         'images',
     ];
-    
+
     // protected $dates = [
     //     'from',
     //     'to',
@@ -28,6 +29,7 @@ class Advertising extends Model
         'total' => 'float',
         'daily_budget' => 'float',
     ];
+
 
 
     // public function setDailyBudgetAttribute(){

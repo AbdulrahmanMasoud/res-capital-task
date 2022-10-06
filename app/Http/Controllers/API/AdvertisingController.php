@@ -31,8 +31,18 @@ class AdvertisingController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
+
+        // loop throw all images and upload them
+        $data['images'] = array_map(function ($file) {
+            return $this->uploadFile($file, 'advertising');
+        }, $data['images']) ?? [];
+
+        // get daily budget by get total and get diff betwen start date and en date
         $data['daily_budget'] = round(($data['total'] / Carbon::parse($data['from'])->diffInDays($data['to'])), 2);
+
         $advertising = Advertising::create($data);
+
+        //after create adv return it
         return new AdvertisingResource($advertising);
     }
 
@@ -54,9 +64,15 @@ class AdvertisingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request,Advertising $advertising)
+    public function update(UpdateRequest $request, Advertising $advertising)
     {
         $data = $request->validated();
+        if (isset($data['images'])) {
+            $images = array_map(function ($file) {
+                return $this->uploadFile($file, 'advertising');
+            }, $data['images']) ?? [];
+            $data['images'] = array_merge($advertising->images, $images);
+        }
         $data['daily_budget'] = round(($data['total'] / Carbon::parse($data['from'])->diffInDays($data['to'])), 2);
         $advertising->update($data);
         return new AdvertisingResource($advertising);
