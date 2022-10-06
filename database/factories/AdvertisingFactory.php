@@ -19,10 +19,11 @@ class AdvertisingFactory extends Factory
         $total = $this->faker->randomFloat(2, 50, 1000);
         return [
             'name' => $this->faker->sentence(),
-            'from' => $from,
-            'to' => $to,
+            'from' => $from->format('Y-m-d'),
+            'to' => $to->format('Y-m-d'),
             'total' => $total,
             'daily_budget' => round(($total / Carbon::parse($from)->diffInDays($to)), 2),
+            'images' => []
         ];
     }
 }

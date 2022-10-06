@@ -45,6 +45,9 @@ class RunCommand extends Command
         //migrate database
         $this->call('migrate');
 
+        //test all Features
+        $this->call('test');
+
         //seed fake data if there is no data
         if (!Advertising::first()) {
             $this->call('db:seed');
